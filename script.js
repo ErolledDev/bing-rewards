@@ -25,27 +25,26 @@ const testimonials = [
 let currentTestimonialIndex = 0;
 let toastTimeout;
 
-// Enhanced animations and interactions
+// Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+    initializeApp();
+});
+
+function initializeApp() {
     // Start toast notifications
     showToastNotification();
     
-    // Smooth fade-in animation for sections (reduced)
-    const sections = document.querySelectorAll('section, header, footer');
+    // Add button interactions
+    addButtonInteractions();
     
-    sections.forEach((section, index) => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        
-        setTimeout(() => {
-            section.style.opacity = '1';
-            section.style.transform = 'translateY(0)';
-        }, index * 100);
-    });
-});
+    // Add accessibility improvements
+    addAccessibilityFeatures();
+    
+    // Add smooth scrolling for internal links
+    addSmoothScrolling();
+}
 
-// Toast notification function
+// Toast notification system
 function showToastNotification() {
     function createToast() {
         const testimonial = testimonials[currentTestimonialIndex];
@@ -66,7 +65,7 @@ function showToastNotification() {
                     <div class="toast-message">${testimonial.name} ${testimonial.message}</div>
                     <div class="toast-subtitle">${testimonial.subtitle}</div>
                 </div>
-                <button class="toast-close" onclick="hideToast(this)">&times;</button>
+                <button class="toast-close" onclick="hideToast(this)" aria-label="Close notification">&times;</button>
             </div>
         `;
         
@@ -85,8 +84,8 @@ function showToastNotification() {
         currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
     }
     
-    // Show first toast immediately
-    createToast();
+    // Show first toast after a short delay
+    setTimeout(createToast, 1000);
     
     // Show new toast every 6 seconds
     setInterval(createToast, 6000);
@@ -100,35 +99,70 @@ function hideToast(closeButton) {
         toast.classList.add('hide');
         setTimeout(() => {
             toast.remove();
-        }, 500);
+        }, 400);
     }
 }
 
-// Enhanced button interactions (simplified)
-document.querySelectorAll('.main-cta, .secondary-cta').forEach(button => {
-    button.addEventListener('click', function(e) {
-        // Simple scale animation
-        this.style.transform = 'scale(0.98)';
-        setTimeout(() => {
-            this.style.transform = '';
-        }, 150);
-    });
-});
-
-// Gallery hover effects (simplified)
-document.querySelectorAll('.gallery-item').forEach(item => {
-    item.addEventListener('mouseenter', function() {
-        this.style.zIndex = '10';
-    });
+// Add button interactions
+function addButtonInteractions() {
+    const buttons = document.querySelectorAll('.primary-button, .secondary-button');
     
-    item.addEventListener('mouseleave', function() {
-        this.style.zIndex = '1';
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Simple scale animation
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
     });
-});
+}
 
-// Enhanced mobile touch interactions (simplified)
+// Add accessibility features
+function addAccessibilityFeatures() {
+    // Keyboard navigation detection
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            document.body.classList.add('keyboard-navigation');
+        }
+    });
+
+    document.addEventListener('mousedown', function() {
+        document.body.classList.remove('keyboard-navigation');
+    });
+
+    // Add keyboard navigation styles
+    const keyboardStyle = document.createElement('style');
+    keyboardStyle.textContent = `
+        .keyboard-navigation *:focus {
+            outline: 3px solid var(--color-warning) !important;
+            outline-offset: 2px !important;
+        }
+    `;
+    document.head.appendChild(keyboardStyle);
+}
+
+// Add smooth scrolling for internal links
+function addSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+}
+
+// Enhanced mobile touch interactions
 if ('ontouchstart' in window) {
-    document.querySelectorAll('.store-item, .step-item, .gallery-item').forEach(item => {
+    const touchElements = document.querySelectorAll('.store-card, .step-card, .gallery-card');
+    
+    touchElements.forEach(item => {
         item.addEventListener('touchstart', function() {
             this.style.transform = 'scale(0.98)';
         });
@@ -140,60 +174,6 @@ if ('ontouchstart' in window) {
         });
     });
 }
-
-// Simplified intersection observer
-const observerOptions = {
-    threshold: 0.2,
-    rootMargin: '0px 0px -30px 0px'
-};
-
-const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in');
-        }
-    });
-}, observerOptions);
-
-// Observe elements for scroll animations
-document.querySelectorAll('.stores-section, .steps-section, .gallery-section').forEach(section => {
-    observer.observe(section);
-});
-
-// Smooth scrolling for internal links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Accessibility improvements
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Tab') {
-        document.body.classList.add('keyboard-navigation');
-    }
-});
-
-document.addEventListener('mousedown', function() {
-    document.body.classList.remove('keyboard-navigation');
-});
-
-// Add keyboard navigation styles
-const keyboardStyle = document.createElement('style');
-keyboardStyle.textContent = `
-    .keyboard-navigation *:focus {
-        outline: 3px solid #f59e0b !important;
-        outline-offset: 2px !important;
-    }
-`;
-document.head.appendChild(keyboardStyle);
 
 // Copy functionality for sharing
 function copyToClipboard(text) {
@@ -223,23 +203,24 @@ function copyToClipboard(text) {
     }
 }
 
-// Simple toast notification system for utility functions
+// Simple toast notification for utility functions
 function showSimpleToast(message) {
     const toast = document.createElement('div');
     toast.textContent = message;
     toast.style.cssText = `
         position: fixed;
-        bottom: 20px;
+        bottom: var(--space-5);
         left: 50%;
         transform: translateX(-50%);
-        background: #1a1a1a;
-        color: white;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-size: 14px;
+        background: var(--color-gray-800);
+        color: var(--color-white);
+        padding: var(--space-3) var(--space-6);
+        border-radius: var(--radius-lg);
+        font-size: var(--font-size-sm);
         z-index: 1000;
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: opacity var(--transition-normal);
+        box-shadow: var(--shadow-lg);
     `;
     
     document.body.appendChild(toast);
@@ -252,6 +233,41 @@ function showSimpleToast(message) {
         toast.style.opacity = '0';
         setTimeout(() => {
             toast.remove();
-        }, 300);
+        }, 250);
     }, 3000);
 }
+
+// Performance optimization: Intersection Observer for animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Observe sections for scroll animations (optional)
+document.querySelectorAll('.stores-section, .steps-section, .gallery-section').forEach(section => {
+    section.style.opacity = '0.8';
+    section.style.transform = 'translateY(20px)';
+    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(section);
+});
+
+// Error handling for images
+document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', function() {
+        this.style.display = 'none';
+        console.warn('Failed to load image:', this.src);
+    });
+});
+
+// Expose functions globally for HTML onclick handlers
+window.hideToast = hideToast;
+window.copyToClipboard = copyToClipboard;
