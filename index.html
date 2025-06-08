@@ -3,18 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bing Rewards PH - Earn While You Search</title>
+    <title>Microsoft Bing Rewards PH - Earn While You Search</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Welcome Modal -->
+    <div id="welcome-modal" class="modal-overlay">
+        <div class="product-card">
+            <button class="card-close" onclick="closeModal()" aria-label="Close modal">&times;</button>
+            
+            <!-- Product Image -->
+            <div class="card-image">
+                <img src="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/RE53oyx-RT_Spotify_hero_1600x600:VP5-1596x600" alt="Bing Rewards Bonus" class="product-image">
+                <div class="bonus-badge">Now Free Spotify Premium</div>
+            </div>
+            
+            <!-- Product Details -->
+            <div class="card-content">
+                <h3 class="card-title">Welcome Bonus</h3>
+                <p class="card-description">Get 3 months free of Spotify Premium with Microsoft Rewards</p>
+                
+                <div class="card-features">
+                    <span class="feature">⚡ Instant bonus</span>
+                    <span class="feature">🎁 Zero points to claim</span>
+                </div>
+                
+                <!-- CTA Button -->
+                <a href="https://rewards.bing.com/welcome?rh=2E4E8D33&ref=rafsrchae" class="card-cta" target="_blank" rel="noopener">
+                    Claim Now
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="app-container">
         <!-- Header Profile Section -->
         <header class="profile-header">
             <div class="profile-avatar">
                 <img src="https://images.pexels.com/photos/32333372/pexels-photo-32333372/free-photo-of-lively-friends-birthday-party-celebration-photo-by-alexander-mass.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bing Rewards Philippines Profile" class="avatar-image">
             </div>
-            <h1 class="profile-title">Bing Rewards Philippines</h1>
+            <h1 class="profile-title">Microsoft Bing Rewards</h1>
             <p class="profile-description">Transform your daily searches into valuable rewards! Earn points with every Bing search and redeem them at your favorite Philippine stores.</p>
             
             <!-- Key Stats -->

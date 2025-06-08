@@ -24,6 +24,7 @@ const testimonials = [
 
 let currentTestimonialIndex = 0;
 let toastTimeout;
+let confettiAnimationId;
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -31,6 +32,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeApp() {
+    // Initialize confetti
+    initializeConfetti();
+    
+    // Start confetti effect
+    startConfettiEffect();
+    
+    // Show welcome modal after 3 seconds
+    setTimeout(showWelcomeModal, 3000);
+    
     // Start toast notifications
     showToastNotification();
     
@@ -42,6 +52,159 @@ function initializeApp() {
     
     // Add smooth scrolling for internal links
     addSmoothScrolling();
+    
+    // Initialize countdown timer
+    initializeCountdownTimer();
+}
+
+// Confetti System
+function initializeConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // Confetti particles
+    const confettiParticles = [];
+    const colors = ['#ff6b35', '#0066cc', '#00c896', '#ffb020', '#28a745', '#dc3545'];
+    
+    // Create confetti particle
+    function createConfettiParticle() {
+        return {
+            x: Math.random() * canvas.width,
+            y: -10,
+            vx: (Math.random() - 0.5) * 4,
+            vy: Math.random() * 3 + 2,
+            rotation: Math.random() * 360,
+            rotationSpeed: (Math.random() - 0.5) * 10,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            size: Math.random() * 8 + 4,
+            gravity: 0.1,
+            life: 1,
+            decay: Math.random() * 0.02 + 0.005
+        };
+    }
+    
+    // Update confetti particles
+    function updateConfetti() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = confettiParticles.length - 1; i >= 0; i--) {
+            const particle = confettiParticles[i];
+            
+            // Update position
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+            particle.vy += particle.gravity;
+            particle.rotation += particle.rotationSpeed;
+            particle.life -= particle.decay;
+            
+            // Remove dead particles
+            if (particle.life <= 0 || particle.y > canvas.height + 10) {
+                confettiParticles.splice(i, 1);
+                continue;
+            }
+            
+            // Draw particle
+            ctx.save();
+            ctx.globalAlpha = particle.life;
+            ctx.translate(particle.x, particle.y);
+            ctx.rotate(particle.rotation * Math.PI / 180);
+            ctx.fillStyle = particle.color;
+            ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+            ctx.restore();
+        }
+        
+        confettiAnimationId = requestAnimationFrame(updateConfetti);
+    }
+    
+    // Start confetti burst
+    function createConfettiBurst() {
+        for (let i = 0; i < 50; i++) {
+            confettiParticles.push(createConfettiParticle());
+        }
+    }
+    
+    // Public methods
+    window.confettiSystem = {
+        start: function() {
+            createConfettiBurst();
+            updateConfetti();
+        },
+        stop: function() {
+            if (confettiAnimationId) {
+                cancelAnimationFrame(confettiAnimationId);
+            }
+        },
+        burst: createConfettiBurst
+    };
+}
+
+function startConfettiEffect() {
+    // Start confetti immediately
+    window.confettiSystem.start();
+    
+    // Add more bursts during the first 5 seconds
+    setTimeout(() => window.confettiSystem.burst(), 1000);
+    setTimeout(() => window.confettiSystem.burst(), 2000);
+    setTimeout(() => window.confettiSystem.burst(), 3000);
+    
+    // Stop confetti after 5 seconds
+    setTimeout(() => {
+        window.confettiSystem.stop();
+    }, 5000);
+}
+
+// Welcome Modal System
+function showWelcomeModal() {
+    const modal = document.getElementById('welcome-modal');
+    modal.classList.add('show');
+    
+    // Trigger confetti burst when modal shows
+    if (window.confettiSystem) {
+        window.confettiSystem.burst();
+    }
+}
+
+function closeModal() {
+    const modal = document.getElementById('welcome-modal');
+    modal.classList.remove('show');
+}
+
+// Countdown Timer
+function initializeCountdownTimer() {
+    const hoursElement = document.getElementById('timer-hours');
+    const minutesElement = document.getElementById('timer-minutes');
+    const secondsElement = document.getElementById('timer-seconds');
+    
+    if (!hoursElement || !minutesElement || !secondsElement) return;
+    
+    function updateTimer() {
+        const now = new Date();
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        
+        const timeLeft = tomorrow - now;
+        
+        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        
+        hoursElement.textContent = hours.toString().padStart(2, '0');
+        minutesElement.textContent = minutes.toString().padStart(2, '0');
+        secondsElement.textContent = seconds.toString().padStart(2, '0');
+    }
+    
+    updateTimer();
+    setInterval(updateTimer, 1000);
 }
 
 // Toast notification system
@@ -84,11 +247,11 @@ function showToastNotification() {
         currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
     }
     
-    // Show first toast after a short delay
-    setTimeout(createToast, 1000);
+    // Show first toast after a short delay (after confetti starts)
+    setTimeout(createToast, 6000);
     
-    // Show new toast every 6 seconds
-    setInterval(createToast, 6000);
+    // Show new toast every 8 seconds
+    setInterval(createToast, 8000);
 }
 
 // Hide toast function
@@ -105,7 +268,7 @@ function hideToast(closeButton) {
 
 // Add button interactions
 function addButtonInteractions() {
-    const buttons = document.querySelectorAll('.primary-button, .secondary-button');
+    const buttons = document.querySelectorAll('.primary-button, .secondary-button, .modal-primary-btn');
     
     buttons.forEach(button => {
         button.addEventListener('click', function(e) {
@@ -114,6 +277,13 @@ function addButtonInteractions() {
             setTimeout(() => {
                 this.style.transform = '';
             }, 150);
+            
+            // Trigger confetti burst on primary buttons
+            if (this.classList.contains('primary-button') || this.classList.contains('modal-primary-btn')) {
+                if (window.confettiSystem) {
+                    window.confettiSystem.burst();
+                }
+            }
         });
     });
 }
@@ -124,6 +294,11 @@ function addAccessibilityFeatures() {
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Tab') {
             document.body.classList.add('keyboard-navigation');
+        }
+        
+        // Close modal with Escape key
+        if (e.key === 'Escape') {
+            closeModal();
         }
     });
 
@@ -140,6 +315,13 @@ function addAccessibilityFeatures() {
         }
     `;
     document.head.appendChild(keyboardStyle);
+    
+    // Close modal when clicking outside
+    document.getElementById('welcome-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModal();
+        }
+    });
 }
 
 // Add smooth scrolling for internal links
@@ -268,6 +450,15 @@ document.querySelectorAll('img').forEach(img => {
     });
 });
 
+// Cleanup function for when page is unloaded
+window.addEventListener('beforeunload', function() {
+    if (window.confettiSystem) {
+        window.confettiSystem.stop();
+    }
+    clearTimeout(toastTimeout);
+});
+
 // Expose functions globally for HTML onclick handlers
 window.hideToast = hideToast;
 window.copyToClipboard = copyToClipboard;
+window.closeModal = closeModal;
