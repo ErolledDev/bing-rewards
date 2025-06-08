@@ -1,52 +1,113 @@
+// User testimonials data
+const testimonials = [
+    { name: "Cedrick from Manila", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Start earning points today!" },
+    { name: "Maria from Cebu", message: "redeemed SM Gift Card", emoji: "🎁", subtitle: "5,000 points earned!" },
+    { name: "Juan from Davao", message: "earned 5,000 points", emoji: "⭐", subtitle: "Level 2 achieved!" },
+    { name: "Ana from Quezon City", message: "got Shopee voucher", emoji: "🛍️", subtitle: "Shopping made rewarding!" },
+    { name: "Carlos from Makati", message: "reached Level 2", emoji: "🏆", subtitle: "Unlock higher rewards!" },
+    { name: "Lisa from Iloilo", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Welcome to the program!" },
+    { name: "Miguel from Baguio", message: "redeemed Lazada credits", emoji: "💳", subtitle: "Online shopping rewards!" },
+    { name: "Sofia from Taguig", message: "earned daily maximum", emoji: "💯", subtitle: "150 points in one day!" },
+    { name: "Rico from Antipolo", message: "got Puregold voucher", emoji: "🛒", subtitle: "Grocery shopping rewards!" },
+    { name: "Grace from Pasig", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Start your journey!" },
+    { name: "Paolo from Muntinlupa", message: "redeemed Robinson's GC", emoji: "🎫", subtitle: "Mall shopping made better!" },
+    { name: "Nina from Paranaque", message: "earned 10,000 points", emoji: "🌟", subtitle: "Amazing milestone!" },
+    { name: "Alex from Las Pinas", message: "reached milestone", emoji: "🎯", subtitle: "Keep earning more!" },
+    { name: "Mia from Marikina", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Welcome aboard!" },
+    { name: "Ryan from Caloocan", message: "got Ayala Mall GC", emoji: "🏬", subtitle: "Premium shopping rewards!" },
+    { name: "Kris from Valenzuela", message: "earned bonus points", emoji: "✨", subtitle: "Extra rewards unlocked!" },
+    { name: "Lea from Malabon", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Start earning now!" },
+    { name: "Ben from Navotas", message: "redeemed first reward", emoji: "🎉", subtitle: "First of many!" },
+    { name: "Joy from San Juan", message: "completed daily tasks", emoji: "✅", subtitle: "Consistency pays off!" },
+    { name: "Mark from Mandaluyong", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Begin your rewards journey!" }
+];
+
+let currentTestimonialIndex = 0;
+let toastTimeout;
+
 // Enhanced animations and interactions
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth fade-in animation for sections
+    // Start toast notifications
+    showToastNotification();
+    
+    // Smooth fade-in animation for sections (reduced)
     const sections = document.querySelectorAll('section, header, footer');
     
     sections.forEach((section, index) => {
         section.style.opacity = '0';
-        section.style.transform = 'translateY(30px)';
-        section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        section.style.transform = 'translateY(20px)';
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         
         setTimeout(() => {
             section.style.opacity = '1';
             section.style.transform = 'translateY(0)';
-        }, index * 150);
+        }, index * 100);
     });
 });
 
-// Enhanced button interactions
-document.querySelectorAll('.main-cta, .secondary-cta').forEach(button => {
-    button.addEventListener('click', function(e) {
-        // Add ripple effect
-        const ripple = document.createElement('span');
-        const rect = this.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
+// Toast notification function
+function showToastNotification() {
+    function createToast() {
+        const testimonial = testimonials[currentTestimonialIndex];
         
-        ripple.style.cssText = `
-            position: absolute;
-            width: ${size}px;
-            height: ${size}px;
-            left: ${x}px;
-            top: ${y}px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
+        // Remove existing toast if any
+        const existingToast = document.querySelector('.toast-notification');
+        if (existingToast) {
+            existingToast.remove();
+        }
+        
+        // Create new toast
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.innerHTML = `
+            <div class="toast-content">
+                <div class="toast-icon">${testimonial.emoji}</div>
+                <div class="toast-text">
+                    <div class="toast-message">${testimonial.name} ${testimonial.message}</div>
+                    <div class="toast-subtitle">${testimonial.subtitle}</div>
+                </div>
+                <button class="toast-close" onclick="hideToast(this)">&times;</button>
+            </div>
         `;
         
-        this.style.position = 'relative';
-        this.style.overflow = 'hidden';
-        this.appendChild(ripple);
+        document.body.appendChild(toast);
         
+        // Show toast with animation
         setTimeout(() => {
-            ripple.remove();
-        }, 600);
+            toast.classList.add('show');
+        }, 100);
         
-        // Scale animation
+        // Auto hide after 4 seconds
+        toastTimeout = setTimeout(() => {
+            hideToast(toast.querySelector('.toast-close'));
+        }, 4000);
+        
+        currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
+    }
+    
+    // Show first toast immediately
+    createToast();
+    
+    // Show new toast every 6 seconds
+    setInterval(createToast, 6000);
+}
+
+// Hide toast function
+function hideToast(closeButton) {
+    const toast = closeButton.closest('.toast-notification');
+    if (toast) {
+        clearTimeout(toastTimeout);
+        toast.classList.add('hide');
+        setTimeout(() => {
+            toast.remove();
+        }, 500);
+    }
+}
+
+// Enhanced button interactions (simplified)
+document.querySelectorAll('.main-cta, .secondary-cta').forEach(button => {
+    button.addEventListener('click', function(e) {
+        // Simple scale animation
         this.style.transform = 'scale(0.98)';
         setTimeout(() => {
             this.style.transform = '';
@@ -54,19 +115,7 @@ document.querySelectorAll('.main-cta, .secondary-cta').forEach(button => {
     });
 });
 
-// Add ripple animation CSS
-const rippleStyle = document.createElement('style');
-rippleStyle.textContent = `
-    @keyframes ripple {
-        to {
-            transform: scale(4);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(rippleStyle);
-
-// Gallery hover effects
+// Gallery hover effects (simplified)
 document.querySelectorAll('.gallery-item').forEach(item => {
     item.addEventListener('mouseenter', function() {
         this.style.zIndex = '10';
@@ -77,7 +126,7 @@ document.querySelectorAll('.gallery-item').forEach(item => {
     });
 });
 
-// Enhanced mobile touch interactions
+// Enhanced mobile touch interactions (simplified)
 if ('ontouchstart' in window) {
     document.querySelectorAll('.store-item, .step-item, .gallery-item').forEach(item => {
         item.addEventListener('touchstart', function() {
@@ -92,60 +141,24 @@ if ('ontouchstart' in window) {
     });
 }
 
-// Intersection Observer for scroll-triggered animations
+// Simplified intersection observer
 const observerOptions = {
-    threshold: 0.15,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: 0.2,
+    rootMargin: '0px 0px -30px 0px'
 };
 
 const observer = new IntersectionObserver(function(entries) {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('animate-in');
-            
-            // Stagger child animations
-            const children = entry.target.querySelectorAll('.store-item, .step-item, .gallery-item, .stat-card');
-            children.forEach((child, index) => {
-                setTimeout(() => {
-                    child.classList.add('animate-in');
-                }, index * 100);
-            });
         }
     });
 }, observerOptions);
 
 // Observe elements for scroll animations
-document.querySelectorAll('.stores-section, .steps-section, .gallery-section, .profile-section').forEach(section => {
+document.querySelectorAll('.stores-section, .steps-section, .gallery-section').forEach(section => {
     observer.observe(section);
 });
-
-// Add animation classes
-const animationStyle = document.createElement('style');
-animationStyle.textContent = `
-    .store-item, .step-item, .gallery-item, .stat-card {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    
-    .animate-in {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-    }
-    
-    .gallery-item {
-        transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
-    }
-    
-    .step-item {
-        transition: opacity 0.6s ease, transform 0.6s ease, background-color 0.3s ease, border-color 0.3s ease;
-    }
-    
-    .store-item {
-        transition: opacity 0.6s ease, transform 0.6s ease, background-color 0.3s ease, border-color 0.3s ease;
-    }
-`;
-document.head.appendChild(animationStyle);
 
 // Smooth scrolling for internal links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -161,32 +174,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Performance optimization: Throttled scroll handler
-let ticking = false;
-
-function updateScrollEffects() {
-    const scrolled = window.pageYOffset;
-    const rate = scrolled * -0.3;
-    
-    // Subtle parallax for profile section
-    const profileSection = document.querySelector('.profile-section');
-    if (profileSection) {
-        profileSection.style.transform = `translateY(${rate}px)`;
-    }
-    
-    ticking = false;
-}
-
-window.addEventListener('scroll', () => {
-    if (!ticking) {
-        requestAnimationFrame(updateScrollEffects);
-        ticking = true;
-    }
-});
-
 // Accessibility improvements
 document.addEventListener('keydown', function(e) {
-    // Enhanced focus visibility for keyboard navigation
     if (e.key === 'Tab') {
         document.body.classList.add('keyboard-navigation');
     }
@@ -200,7 +189,7 @@ document.addEventListener('mousedown', function() {
 const keyboardStyle = document.createElement('style');
 keyboardStyle.textContent = `
     .keyboard-navigation *:focus {
-        outline: 3px solid #ffcc00 !important;
+        outline: 3px solid #f59e0b !important;
         outline-offset: 2px !important;
     }
 `;
@@ -210,7 +199,7 @@ document.head.appendChild(keyboardStyle);
 function copyToClipboard(text) {
     if (navigator.clipboard && window.isSecureContext) {
         return navigator.clipboard.writeText(text).then(() => {
-            showToast('Link copied to clipboard!');
+            showSimpleToast('Link copied to clipboard!');
         });
     } else {
         // Fallback for older browsers
@@ -225,7 +214,7 @@ function copyToClipboard(text) {
         
         try {
             document.execCommand('copy');
-            showToast('Link copied to clipboard!');
+            showSimpleToast('Link copied to clipboard!');
         } catch (err) {
             console.error('Failed to copy text: ', err);
         }
@@ -234,8 +223,8 @@ function copyToClipboard(text) {
     }
 }
 
-// Toast notification system
-function showToast(message) {
+// Simple toast notification system for utility functions
+function showSimpleToast(message) {
     const toast = document.createElement('div');
     toast.textContent = message;
     toast.style.cssText = `
@@ -265,14 +254,4 @@ function showToast(message) {
             toast.remove();
         }, 300);
     }, 3000);
-}
-
-// Performance monitoring
-if ('performance' in window) {
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            const perfData = performance.getEntriesByType('navigation')[0];
-            console.log('Page load time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
-        }, 0);
-    });
 }

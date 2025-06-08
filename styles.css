@@ -21,9 +21,23 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
     color: #1a1a1a;
-    background: linear-gradient(135deg, #0066cc 0%, #004499 50%, #002266 100%);
+    background: #f8fafc;
     min-height: 100vh;
     padding: 0;
+    position: relative;
+}
+
+/* Food Pattern Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Burger --%3E%3Cg transform='translate(10,10)'%3E%3Crect x='5' y='15' width='20' height='3' fill='%23f59e0b' rx='1.5'/%3E%3Crect x='3' y='18' width='24' height='8' fill='%23dc2626' rx='4'/%3E%3Crect x='5' y='26' width='20' height='3' fill='%2316a34a' rx='1.5'/%3E%3Crect x='2' y='29' width='26' height='4' fill='%23a16207' rx='2'/%3E%3C/g%3E%3C!-- Pizza slice --%3E%3Cg transform='translate(70,10)'%3E%3Cpath d='M5,5 L25,15 L15,25 Z' fill='%23f59e0b'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%23dc2626'/%3E%3Ccircle cx='18' cy='18' r='1.5' fill='%2316a34a'/%3E%3C/g%3E%3C!-- Shopping bag --%3E%3Cg transform='translate(10,70)'%3E%3Crect x='5' y='10' width='20' height='18' fill='%233b82f6' rx='2'/%3E%3Cpath d='M10,10 Q10,5 15,5 Q20,5 20,10' stroke='%233b82f6' stroke-width='2' fill='none'/%3E%3C/g%3E%3C!-- Shopping cart --%3E%3Cg transform='translate(70,70)'%3E%3Crect x='5' y='15' width='15' height='10' fill='none' stroke='%236b7280' stroke-width='2'/%3E%3Ccircle cx='10' cy='28' r='2' fill='%236b7280'/%3E%3Ccircle cx='18' cy='28' r='2' fill='%236b7280'/%3E%3Cline x1='2' y1='8' x2='5' y2='15' stroke='%236b7280' stroke-width='2'/%3E%3C/g%3E%3C!-- Cash/Money --%3E%3Cg transform='translate(40,40)'%3E%3Crect x='5' y='12' width='20' height='12' fill='%2316a34a' rx='2'/%3E%3Ccircle cx='15' cy='18' r='3' fill='%23ffffff'/%3E%3Ctext x='15' y='20' text-anchor='middle' fill='%2316a34a' font-size='6' font-weight='bold'%3E₱%3C/text%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.3;
+    z-index: -1;
 }
 
 .container {
@@ -32,11 +46,12 @@ body {
     background: #ffffff;
     min-height: 100vh;
     position: relative;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
 }
 
 /* Profile Section */
 .profile-section {
-    background: linear-gradient(135deg, #0078d4 0%, #005a9f 100%);
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
     color: white;
     padding: 3rem 2rem 2rem;
     text-align: center;
@@ -113,6 +128,76 @@ body {
     line-height: 1.2;
 }
 
+/* Toast Notification Styles */
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(245, 158, 11, 0.4);
+    z-index: 1000;
+    transform: translateX(400px);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    max-width: 320px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.toast-notification.show {
+    transform: translateX(0);
+}
+
+.toast-notification.hide {
+    transform: translateX(400px);
+    opacity: 0;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.toast-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.toast-text {
+    flex: 1;
+}
+
+.toast-message {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+}
+
+.toast-subtitle {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 0.5rem;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
 /* Actions Section */
 .actions-section {
     padding: 2rem;
@@ -123,41 +208,26 @@ body {
 .main-cta {
     display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #0078d4, #40e0d0);
+    background: linear-gradient(135deg, #1e40af, #3b82f6);
     color: white;
     text-decoration: none;
     border-radius: 20px;
     padding: 1.75rem;
     margin-bottom: 1.25rem;
-    box-shadow: 0 8px 32px rgba(0, 120, 212, 0.3);
+    box-shadow: 0 8px 32px rgba(30, 64, 175, 0.3);
     transition: all 0.3s ease;
     border: none;
     position: relative;
     overflow: hidden;
 }
 
-.main-cta::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-}
-
-.main-cta:hover::before {
-    left: 100%;
-}
-
 .main-cta:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(0, 120, 212, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(30, 64, 175, 0.4);
 }
 
 .main-cta:focus {
-    outline: 3px solid #ffcc00;
+    outline: 3px solid #f59e0b;
     outline-offset: 2px;
 }
 
@@ -195,7 +265,7 @@ body {
 .secondary-cta {
     display: flex;
     align-items: center;
-    background: #f8f9fa;
+    background: #f8fafc;
     color: #1a1a1a;
     text-decoration: none;
     border-radius: 16px;
@@ -203,17 +273,17 @@ body {
     margin-bottom: 1rem;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    border: 2px solid transparent;
+    border: 2px solid #e2e8f0;
 }
 
 .secondary-cta:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    border-color: #e9ecef;
+    border-color: #cbd5e1;
 }
 
 .secondary-cta:focus {
-    outline: 3px solid #0078d4;
+    outline: 3px solid #1e40af;
     outline-offset: 2px;
 }
 
@@ -235,14 +305,14 @@ body {
 
 .button-subtitle {
     font-size: 0.9rem;
-    color: #666666;
+    color: #64748b;
 }
 
 /* Earnings Section */
 .earnings-section {
     padding: 2rem;
     background: white;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid #e2e8f0;
 }
 
 .section-title {
@@ -270,11 +340,11 @@ body {
 .earnings-table td {
     padding: 1.25rem 1rem;
     text-align: left;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .earnings-table thead th {
-    background: #f8f9fa;
+    background: #f8fafc;
     font-weight: 600;
     color: #1a1a1a;
     text-align: center;
@@ -282,7 +352,7 @@ body {
 }
 
 .earnings-table tbody th {
-    background: #f8f9fa;
+    background: #f8fafc;
     font-weight: 500;
     width: 35%;
 }
@@ -300,13 +370,13 @@ body {
 
 .points {
     font-weight: 600;
-    color: #0078d4;
+    color: #1e40af;
     margin-bottom: 0.5rem;
     font-size: 0.95rem;
 }
 
 .limit {
-    color: #666666;
+    color: #64748b;
     font-size: 0.85rem;
     line-height: 1.3;
 }
@@ -321,12 +391,12 @@ body {
 .gallery-section {
     padding: 2rem;
     background: white;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid #e2e8f0;
 }
 
 .gallery-description {
     text-align: center;
-    color: #666666;
+    color: #64748b;
     margin-bottom: 2rem;
     font-size: 1rem;
     line-height: 1.5;
@@ -356,11 +426,6 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.gallery-item:hover .gallery-image {
-    transform: scale(1.05);
 }
 
 .gallery-overlay {
@@ -387,15 +452,36 @@ body {
 
 .gallery-points {
     font-size: 0.85rem;
-    color: #40e0d0;
+    color: #f59e0b;
     font-weight: 500;
 }
 
 /* Stores Section */
 .stores-section {
     padding: 2rem;
-    background: white;
-    border-top: 1px solid #f0f0f0;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-top: 1px solid #e2e8f0;
+}
+
+.stores-intro {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.stores-subtitle {
+    color: #64748b;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.stores-highlight {
+    background: linear-gradient(135deg, #1e40af, #3b82f6);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 16px rgba(30, 64, 175, 0.2);
 }
 
 .stores-grid {
@@ -409,17 +495,19 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 1.25rem 0.75rem;
+    padding: 1.5rem 1rem;
     border-radius: 16px;
-    background: #f8f9fa;
+    background: white;
     transition: all 0.3s ease;
-    border: 2px solid transparent;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .store-item:hover {
-    background: #e9ecef;
+    background: #f8fafc;
     transform: translateY(-3px);
-    border-color: #dee2e6;
+    border-color: #1e40af;
+    box-shadow: 0 8px 24px rgba(30, 64, 175, 0.15);
 }
 
 .store-logo {
@@ -433,16 +521,26 @@ body {
 
 .store-name {
     font-size: 0.85rem;
-    font-weight: 500;
+    font-weight: 600;
     color: #1a1a1a;
     line-height: 1.2;
+}
+
+.store-badge {
+    background: #f59e0b;
+    color: white;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+    font-weight: 500;
 }
 
 /* Steps Section */
 .steps-section {
     padding: 2rem;
     background: white;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid #e2e8f0;
 }
 
 .steps-list {
@@ -456,22 +554,22 @@ body {
     display: flex;
     align-items: center;
     padding: 1.5rem;
-    background: #f8f9fa;
+    background: #f8fafc;
     border-radius: 16px;
     transition: all 0.3s ease;
-    border: 2px solid transparent;
+    border: 2px solid #e2e8f0;
 }
 
 .step-item:hover {
-    background: #e9ecef;
-    border-color: #dee2e6;
+    background: #f1f5f9;
+    border-color: #cbd5e1;
     transform: translateX(5px);
 }
 
 .step-number {
     width: 48px;
     height: 48px;
-    background: linear-gradient(135deg, #0078d4, #40e0d0);
+    background: linear-gradient(135deg, #1e40af, #3b82f6);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -481,7 +579,7 @@ body {
     margin-right: 1.25rem;
     flex-shrink: 0;
     font-size: 1.1rem;
-    box-shadow: 0 4px 12px rgba(0, 120, 212, 0.3);
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
 }
 
 .step-text {
@@ -496,7 +594,7 @@ body {
 }
 
 .step-desc {
-    color: #666666;
+    color: #64748b;
     font-size: 0.9rem;
     line-height: 1.4;
 }
@@ -505,10 +603,10 @@ body {
 .footer {
     text-align: center;
     padding: 2rem;
-    background: #f8f9fa;
-    color: #666666;
+    background: #f8fafc;
+    color: #64748b;
     font-size: 0.9rem;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid #e2e8f0;
 }
 
 .footer p {
@@ -523,6 +621,22 @@ body {
 @media (max-width: 480px) {
     .profile-section {
         padding: 2rem 1.5rem 1.5rem;
+    }
+    
+    .toast-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        transform: translateY(-100px);
+    }
+    
+    .toast-notification.show {
+        transform: translateY(0);
+    }
+    
+    .toast-notification.hide {
+        transform: translateY(-100px);
     }
     
     .actions-section,
@@ -603,44 +717,6 @@ body {
     
     .stat-card {
         padding: 1.25rem;
-    }
-    
-    .table-container {
-        font-size: 0.8rem;
-    }
-    
-    .earnings-table th,
-    .earnings-table td {
-        padding: 0.75rem 0.5rem;
-    }
-    
-    .earnings-table thead th,
-    .earnings-table tbody th {
-        font-size: 0.8rem;
-    }
-    
-    .earnings-table tbody th {
-        width: 100%;
-        display: block;
-        text-align: left;
-        background: #0078d4;
-        color: white;
-        border-bottom: none;
-    }
-    
-    .earnings-table tbody td {
-        display: block;
-        text-align: left;
-        border-left: 4px solid #f0f0f0;
-        padding-left: 1rem;
-    }
-    
-    .earnings-table tbody tr {
-        display: block;
-        margin-bottom: 1rem;
-        border: 1px solid #e9ecef;
-        border-radius: 8px;
-        overflow: hidden;
     }
     
     .stores-grid {
