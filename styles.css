@@ -637,12 +637,8 @@ background-size: 24px 24px;
 .app-footer {
   text-align: center;
   padding: var(--space-8) var(--space-6);
-  background: var(--color-white);
   color: var(--color-gray-500);
   font-size: var(--font-size-base);
-  border-radius: var(--radius-3xl);
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--color-gray-200);
   margin-bottom: var(--space-6);
 }
 
