@@ -272,6 +272,7 @@ background-size: 24px 24px;
   border: none;
   position: relative;
   overflow: hidden;
+  min-height: 80px;
 }
 
 .primary-button {
@@ -301,10 +302,15 @@ background-size: 24px 24px;
   font-size: var(--font-size-3xl);
   margin-right: var(--space-5);
   flex-shrink: 0;
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button-text {
   flex: 1;
+  min-width: 0;
 }
 
 .button-title {
@@ -312,18 +318,22 @@ background-size: 24px 24px;
   font-weight: var(--font-weight-semibold);
   margin-bottom: var(--space-1);
   display: block;
+  line-height: var(--line-height-tight);
 }
 
 .button-subtitle {
   font-size: var(--font-size-base);
   opacity: 0.9;
   display: block;
+  line-height: var(--line-height-normal);
 }
 
 .button-arrow {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   transition: transform var(--transition-normal);
+  flex-shrink: 0;
+  margin-left: var(--space-3);
 }
 
 .primary-button:hover .button-arrow {
@@ -337,6 +347,7 @@ background-size: 24px 24px;
   box-shadow: var(--shadow-md);
   background: var(--color-white);
   border: 1px solid var(--color-gray-200);
+  margin-bottom: var(--space-6);
 }
 
 .earnings-table {
@@ -386,6 +397,43 @@ background-size: 24px 24px;
 .points-limit {
   color: var(--color-gray-500);
   font-size: var(--font-size-sm);
+}
+
+/* Rewards Information Section */
+.rewards-info {
+  background: linear-gradient(135deg, var(--color-gray-50), var(--color-gray-100));
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  border: 1px solid var(--color-gray-200);
+  margin-top: var(--space-6);
+}
+
+.rewards-description {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-gray-600);
+  text-align: center;
+  margin: 0;
+}
+
+.rewards-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition-normal);
+  padding: 10px;
+}
+
+.rewards-link:hover {
+  color: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+
+.rewards-link:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
 /* Gallery Grid */
@@ -739,10 +787,27 @@ background-size: 24px 24px;
   .primary-button,
   .secondary-button {
     padding: var(--space-5);
+    min-height: 72px;
+    flex-wrap: wrap;
+  }
+  
+  .button-icon {
+    font-size: var(--font-size-2xl);
+    margin-right: var(--space-4);
+    min-width: 40px;
   }
   
   .button-title {
     font-size: var(--font-size-lg);
+  }
+  
+  .button-subtitle {
+    font-size: var(--font-size-sm);
+  }
+  
+  .button-arrow {
+    font-size: var(--font-size-xl);
+    margin-left: var(--space-2);
   }
   
   .earnings-table th,
@@ -788,6 +853,14 @@ background-size: 24px 24px;
   .step-description {
     font-size: var(--font-size-sm);
   }
+  
+  .rewards-info {
+    padding: var(--space-5);
+  }
+  
+  .rewards-description {
+    font-size: var(--font-size-sm);
+  }
 }
 
 @media (max-width: 360px) {
@@ -830,6 +903,35 @@ background-size: 24px 24px;
   .section-heading {
     font-size: var(--font-size-xl);
   }
+  
+  .primary-button,
+  .secondary-button {
+    padding: var(--space-4);
+    min-height: 64px;
+  }
+  
+  .button-icon {
+    font-size: var(--font-size-xl);
+    margin-right: var(--space-3);
+    min-width: 36px;
+  }
+  
+  .button-title {
+    font-size: var(--font-size-base);
+  }
+  
+  .button-subtitle {
+    font-size: var(--font-size-xs);
+  }
+  
+  .rewards-info {
+    padding: var(--space-4);
+  }
+  
+  .rewards-description {
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-normal);
+  }
 }
 
 /* Accessibility Improvements */
@@ -870,7 +972,8 @@ background-size: 24px 24px;
 .secondary-button:focus,
 .store-card:focus,
 .step-card:focus,
-.gallery-card:focus {
+.gallery-card:focus,
+.rewards-link:focus {
   outline: 3px solid var(--color-warning);
   outline-offset: 2px;
 }
