@@ -58,6 +58,8 @@ const testimonials = [
 let currentTestimonialIndex = 0;
 let toastTimeout;
 let confettiAnimationId;
+let confettiSystem = null;
+let confettiActive = false;
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -90,9 +92,11 @@ function initializeApp() {
     initializeCountdownTimer();
 }
 
-// Confetti System
+// Enhanced Confetti System with proper cleanup
 function initializeConfetti() {
     const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
+    
     const ctx = canvas.getContext('2d');
     
     // Set canvas size
@@ -104,8 +108,8 @@ function initializeConfetti() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     
-    // Confetti particles
-    const confettiParticles = [];
+    // Confetti particles array
+    let confettiParticles = [];
     const colors = ['#ff6b35', '#0066cc', '#00c896', '#ffb020', '#28a745', '#dc3545'];
     
     // Create confetti particle
@@ -125,29 +129,40 @@ function initializeConfetti() {
         };
     }
     
-    // Update confetti particles
+    // Update and render confetti particles
     function updateConfetti() {
+        // Clear the entire canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
+        // If confetti is not active and no particles remain, stop the animation
+        if (!confettiActive && confettiParticles.length === 0) {
+            if (confettiAnimationId) {
+                cancelAnimationFrame(confettiAnimationId);
+                confettiAnimationId = null;
+            }
+            return;
+        }
+        
+        // Update particles in reverse order for safe removal
         for (let i = confettiParticles.length - 1; i >= 0; i--) {
             const particle = confettiParticles[i];
             
-            // Update position
+            // Update position and physics
             particle.x += particle.vx;
             particle.y += particle.vy;
             particle.vy += particle.gravity;
             particle.rotation += particle.rotationSpeed;
             particle.life -= particle.decay;
             
-            // Remove dead particles
-            if (particle.life <= 0 || particle.y > canvas.height + 10) {
+            // Remove particles that are dead or off-screen
+            if (particle.life <= 0 || particle.y > canvas.height + 50 || particle.x < -50 || particle.x > canvas.width + 50) {
                 confettiParticles.splice(i, 1);
                 continue;
             }
             
             // Draw particle
             ctx.save();
-            ctx.globalAlpha = particle.life;
+            ctx.globalAlpha = Math.max(0, particle.life);
             ctx.translate(particle.x, particle.y);
             ctx.rotate(particle.rotation * Math.PI / 180);
             ctx.fillStyle = particle.color;
@@ -155,60 +170,114 @@ function initializeConfetti() {
             ctx.restore();
         }
         
+        // Continue animation
         confettiAnimationId = requestAnimationFrame(updateConfetti);
     }
     
-    // Start confetti burst
-    function createConfettiBurst() {
-        for (let i = 0; i < 50; i++) {
+    // Create confetti burst
+    function createConfettiBurst(particleCount = 50) {
+        for (let i = 0; i < particleCount; i++) {
             confettiParticles.push(createConfettiParticle());
         }
     }
     
-    // Public methods
-    window.confettiSystem = {
-        start: function() {
-            createConfettiBurst();
+    // Clear all confetti immediately
+    function clearConfetti() {
+        confettiParticles = [];
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confettiActive = false;
+        
+        if (confettiAnimationId) {
+            cancelAnimationFrame(confettiAnimationId);
+            confettiAnimationId = null;
+        }
+    }
+    
+    // Start confetti animation
+    function startConfetti() {
+        confettiActive = true;
+        if (!confettiAnimationId) {
             updateConfetti();
+        }
+    }
+    
+    // Stop confetti (let existing particles finish)
+    function stopConfetti() {
+        confettiActive = false;
+        // Animation will stop automatically when all particles are gone
+    }
+    
+    // Public API
+    confettiSystem = {
+        start: function() {
+            startConfetti();
+            createConfettiBurst(50);
         },
         stop: function() {
-            if (confettiAnimationId) {
-                cancelAnimationFrame(confettiAnimationId);
-            }
+            stopConfetti();
         },
-        burst: createConfettiBurst
+        clear: function() {
+            clearConfetti();
+        },
+        burst: function(count = 30) {
+            if (!confettiActive) {
+                startConfetti();
+            }
+            createConfettiBurst(count);
+        },
+        isActive: function() {
+            return confettiActive || confettiParticles.length > 0;
+        }
     };
+    
+    // Expose globally
+    window.confettiSystem = confettiSystem;
 }
 
 function startConfettiEffect() {
-    // Start confetti immediately
-    window.confettiSystem.start();
+    if (!confettiSystem) return;
     
-    // Add more bursts during the first 5 seconds
-    setTimeout(() => window.confettiSystem.burst(), 1000);
-    setTimeout(() => window.confettiSystem.burst(), 2000);
-    setTimeout(() => window.confettiSystem.burst(), 3000);
+    // Start initial confetti burst
+    confettiSystem.start();
     
-    // Stop confetti after 5 seconds
+    // Add more bursts during the first 4 seconds
+    const burstTimeouts = [
+        setTimeout(() => confettiSystem.burst(40), 1000),
+        setTimeout(() => confettiSystem.burst(35), 2000),
+        setTimeout(() => confettiSystem.burst(30), 3000)
+    ];
+    
+    // Stop creating new confetti after 4 seconds
     setTimeout(() => {
-        window.confettiSystem.stop();
-    }, 5000);
+        confettiSystem.stop();
+    }, 4000);
+    
+    // Force clear everything after 8 seconds (safety cleanup)
+    setTimeout(() => {
+        confettiSystem.clear();
+        // Clear any remaining timeouts
+        burstTimeouts.forEach(timeout => clearTimeout(timeout));
+    }, 8000);
 }
 
 // Welcome Modal System
 function showWelcomeModal() {
     const modal = document.getElementById('welcome-modal');
-    modal.classList.add('show');
-    
-    // Trigger confetti burst when modal shows
-    if (window.confettiSystem) {
-        window.confettiSystem.burst();
+    if (modal) {
+        modal.classList.add('show');
+        
+        // Trigger confetti burst when modal shows
+        if (confettiSystem) {
+            confettiSystem.burst(25);
+        }
     }
 }
 
 function closeModal() {
     const modal = document.getElementById('welcome-modal');
-    modal.classList.remove('show');
+    if (modal) {
+        modal.classList.remove('show');
+    }
 }
 
 // Countdown Timer
@@ -301,7 +370,7 @@ function hideToast(closeButton) {
 
 // Add button interactions
 function addButtonInteractions() {
-    const buttons = document.querySelectorAll('.primary-button, .secondary-button, .modal-primary-btn');
+    const buttons = document.querySelectorAll('.primary-button, .secondary-button, .card-cta');
     
     buttons.forEach(button => {
         button.addEventListener('click', function(e) {
@@ -311,10 +380,10 @@ function addButtonInteractions() {
                 this.style.transform = '';
             }, 150);
             
-            // Trigger confetti burst on primary buttons
-            if (this.classList.contains('primary-button') || this.classList.contains('modal-primary-btn')) {
-                if (window.confettiSystem) {
-                    window.confettiSystem.burst();
+            // Trigger confetti burst on primary buttons and CTA buttons
+            if (this.classList.contains('primary-button') || this.classList.contains('card-cta')) {
+                if (confettiSystem) {
+                    confettiSystem.burst(20);
                 }
             }
         });
@@ -350,11 +419,14 @@ function addAccessibilityFeatures() {
     document.head.appendChild(keyboardStyle);
     
     // Close modal when clicking outside
-    document.getElementById('welcome-modal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeModal();
-        }
-    });
+    const modal = document.getElementById('welcome-modal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    }
 }
 
 // Add smooth scrolling for internal links
@@ -485,10 +557,17 @@ document.querySelectorAll('img').forEach(img => {
 
 // Cleanup function for when page is unloaded
 window.addEventListener('beforeunload', function() {
-    if (window.confettiSystem) {
-        window.confettiSystem.stop();
+    if (confettiSystem) {
+        confettiSystem.clear();
     }
     clearTimeout(toastTimeout);
+});
+
+// Page visibility change handler (cleanup when tab is hidden)
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden && confettiSystem) {
+        confettiSystem.clear();
+    }
 });
 
 // Expose functions globally for HTML onclick handlers
