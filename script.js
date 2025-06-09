@@ -58,7 +58,7 @@ const testimonials = [
 // Modal Configuration - Easy to modify
 const MODAL_CONFIG = {
     enabled: true,           // Set to false to disable modal completely
-    showDelay: 7000,        // Delay before showing modal (in milliseconds)
+    showDelay: 5000,        // Delay before showing modal (in milliseconds) - Changed to 5 seconds as requested
     autoHideDelay: 0,       // Auto-hide after X milliseconds (0 = no auto-hide)
     showOnce: false,        // Set to true to show only once per session
     storageKey: 'bingRewardsModalShown' // Local storage key for tracking
@@ -98,8 +98,8 @@ function initializeApp() {
     // Add smooth scrolling for internal links
     addSmoothScrolling();
     
-    // Initialize countdown timer
-    initializeCountdownTimer();
+    // Initialize hero visual effects
+    initializeHeroEffects();
 }
 
 // Modal Control Functions
@@ -330,6 +330,83 @@ function startConfettiEffect() {
     }, 8000);
 }
 
+// Initialize Hero Visual Effects
+function initializeHeroEffects() {
+    // Add interactive hover effects to stats
+    const statItems = document.querySelectorAll('.stat-item');
+    statItems.forEach((item, index) => {
+        item.addEventListener('mouseenter', function() {
+            // Trigger a small confetti burst on hover
+            if (confettiSystem && Math.random() > 0.7) { // 30% chance
+                confettiSystem.burst(5);
+            }
+        });
+    });
+    
+    // Add click effects to avatar
+    const avatar = document.querySelector('.avatar-image');
+    if (avatar) {
+        avatar.addEventListener('click', function() {
+            // Trigger confetti burst when avatar is clicked
+            if (confettiSystem) {
+                confettiSystem.burst(20);
+            }
+            
+            // Add a temporary scale effect
+            this.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+        });
+    }
+    
+    // Add parallax effect to floating elements on scroll (subtle)
+    let ticking = false;
+    function updateParallax() {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll('.floating-gift, .floating-coin, .floating-star, .floating-bag, .floating-badge');
+        
+        parallaxElements.forEach((element, index) => {
+            const speed = 0.5 + (index * 0.1); // Different speeds for different elements
+            const yPos = -(scrolled * speed);
+            element.style.transform = `translateY(${yPos}px)`;
+        });
+        
+        ticking = false;
+    }
+    
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestTick);
+    
+    // Add mouse movement parallax effect
+    document.addEventListener('mousemove', function(e) {
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+        
+        const orbs = document.querySelectorAll('.orb');
+        orbs.forEach((orb, index) => {
+            const speed = 10 + (index * 5);
+            const x = (mouseX - 0.5) * speed;
+            const y = (mouseY - 0.5) * speed;
+            orb.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        
+        const shapes = document.querySelectorAll('.shape');
+        shapes.forEach((shape, index) => {
+            const speed = 5 + (index * 2);
+            const x = (mouseX - 0.5) * speed;
+            const y = (mouseY - 0.5) * speed;
+            shape.style.transform = `translate(${x}px, ${y}px) rotate(${x}deg)`;
+        });
+    });
+}
+
 // Welcome Modal System
 function showWelcomeModal() {
     const modal = document.getElementById('welcome-modal');
@@ -357,35 +434,6 @@ function closeModal() {
         clearTimeout(modalTimeout);
         modalTimeout = null;
     }
-}
-
-// Countdown Timer
-function initializeCountdownTimer() {
-    const hoursElement = document.getElementById('timer-hours');
-    const minutesElement = document.getElementById('timer-minutes');
-    const secondsElement = document.getElementById('timer-seconds');
-    
-    if (!hoursElement || !minutesElement || !secondsElement) return;
-    
-    function updateTimer() {
-        const now = new Date();
-        const tomorrow = new Date(now);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0);
-        
-        const timeLeft = tomorrow - now;
-        
-        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        
-        hoursElement.textContent = hours.toString().padStart(2, '0');
-        minutesElement.textContent = minutes.toString().padStart(2, '0');
-        secondsElement.textContent = seconds.toString().padStart(2, '0');
-    }
-    
-    updateTimer();
-    setInterval(updateTimer, 1000);
 }
 
 // Toast notification system
@@ -526,7 +574,7 @@ function addSmoothScrolling() {
 
 // Enhanced mobile touch interactions
 if ('ontouchstart' in window) {
-    const touchElements = document.querySelectorAll('.store-card, .step-card, .gallery-card');
+    const touchElements = document.querySelectorAll('.store-card, .step-card, .gallery-card, .stat-item');
     
     touchElements.forEach(item => {
         item.addEventListener('touchstart', function() {
@@ -661,9 +709,15 @@ console.log(`
 
 Current config:
 - Enabled: ${MODAL_CONFIG.enabled}
-- Show delay: ${MODAL_CONFIG.showDelay}ms
+- Show delay: ${MODAL_CONFIG.showDelay}ms (5 seconds)
 - Auto-hide: ${MODAL_CONFIG.autoHideDelay}ms
 - Show once: ${MODAL_CONFIG.showOnce}
+
+🎨 Hero Visual Effects:
+- Floating SVG elements with animations
+- Interactive parallax on mouse movement
+- Confetti bursts on avatar click
+- Animated particles and gradient orbs
 `);
 
 // Expose functions globally for HTML onclick handlers and developer use
