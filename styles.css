@@ -1792,7 +1792,9 @@ background-size: 24px 24px;
   position: fixed;
   top: var(--space-5);
   right: var(--space-5);
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  background: #f78623;
+background: linear-gradient(90deg,rgba(247, 134, 35, 1) 0%, rgba(247, 143, 52, 1) 100%);
+  /* background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light)); */
   color: var(--color-white);
   padding: var(--space-4) var(--space-6);
   border-radius: var(--radius-xl);

@@ -1,14 +1,14 @@
-// User testimonials data
-const testimonials = [
+// Base testimonials data - will be shuffled dynamically on each page load
+const baseTestimonials = [
     { name: "Cedrick from Manila", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Start earning points today!" },
     { name: "Maria from Cebu", message: "redeemed SM Gift Card", emoji: "🎁", subtitle: "11,110 points earned!" },
     { name: "Juan from Davao", message: "earned 5,000 points", emoji: "⭐", subtitle: "Level 2 achieved!" },
     { name: "Ana from Quezon City", message: "got Zalora voucher", emoji: "🛍️", subtitle: "6,665 points redeemed!" },
     { name: "Carlos from Makati", message: "reached Level 2", emoji: "🏆", subtitle: "Unlock higher rewards!" },
     { name: "Lisa from Iloilo", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Welcome to the program!" },
-    { name: "Jessica from Fairview", message: "Redeem 3 months Spotify premium", emoji: "🎧", subtitle: "Enjoy your listening!" },
+    { name: "Jessica from Fairview", message: "redeemed 3 months Spotify premium", emoji: "🎧", subtitle: "Enjoy your listening!" },
     { name: "Miguel from Baguio", message: "redeemed Puregold voucher", emoji: "💳", subtitle: "2,395 points spent!" },
-    { name: "Sofia from Taguig", message: "earned daily maximum", emoji: "💯", subtitle: "150 points in one day!" },
+    { name: "Sofia from Taguig", message: "earned unlimited points", emoji: "💯", subtitle: "No daily limit!" },
     { name: "Rico from Antipolo", message: "got Puregold voucher", emoji: "🛒", subtitle: "2,395 points redeemed!" },
     { name: "Grace from Pasig", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Start your journey!" },
     { name: "Paolo from Muntinlupa", message: "redeemed Robinson's GC", emoji: "🎫", subtitle: "11,110 points earned!" },
@@ -25,7 +25,7 @@ const testimonials = [
     { name: "Jake from Laguna", message: "earned Level 2 status", emoji: "🏅", subtitle: "500+ points monthly!" },
     { name: "Rina from Cavite", message: "got SM Gift Card", emoji: "🎁", subtitle: "11,110 points earned!" },
     { name: "Tony from Rizal", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Welcome to rewards!" },
-    { name: "Liza from Bulacan", message: "earned daily max", emoji: "💯", subtitle: "150 points today!" },
+    { name: "Liza from Bulacan", message: "earned massive points", emoji: "💯", subtitle: "Unlimited potential!" },
     { name: "Dave from Pampanga", message: "redeemed Zalora voucher", emoji: "👕", subtitle: "6,665 points used!" },
     { name: "Amy from Zambales", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Start earning now!" },
     { name: "Roy from Tarlac", message: "got Puregold voucher", emoji: "🛒", subtitle: "2,395 points redeemed!" },
@@ -34,9 +34,9 @@ const testimonials = [
     { name: "Kate from Baguio", message: "earned bonus points", emoji: "✨", subtitle: "Daily streak bonus!" },
     { name: "Mike from Ilocos Norte", message: "redeemed Max's GC", emoji: "🍽️", subtitle: "6,665 points earned!" },
     { name: "Gina from Ilocos Sur", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Start your journey!" },
-    { name: "Alfred from Tondo", message: "Redeem 3 months Spotify premium", emoji: "🎧", subtitle: "Enjoy your listening!" },
+    { name: "Alfred from Tondo", message: "redeemed 3 months Spotify premium", emoji: "🎧", subtitle: "Enjoy your listening!" },
     { name: "Paul from La Union", message: "got Robinson's voucher", emoji: "🏬", subtitle: "11,110 points used!" },
-    { name: "Rose from Cagayan", message: "earned daily maximum", emoji: "💯", subtitle: "150 points achieved!" },
+    { name: "Rose from Cagayan", message: "earned unlimited points", emoji: "💯", subtitle: "No earning limits!" },
     { name: "Dan from Isabela", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Welcome to rewards!" },
     { name: "Ivy from Quirino", message: "redeemed first reward", emoji: "🎉", subtitle: "2,395 points spent!" },
     { name: "Rex from Bataan", message: "reached Level 2", emoji: "🏆", subtitle: "Higher rewards unlocked!" },
@@ -45,7 +45,7 @@ const testimonials = [
     { name: "Mae from Cabanatuan", message: "earned 8,000 points", emoji: "🌟", subtitle: "Great progress!" },
     { name: "Ron from San Fernando", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Welcome to the program!" },
     { name: "Lyn from Malolos", message: "redeemed Zalora voucher", emoji: "👗", subtitle: "6,665 points well spent!" },
-    { name: "Art from Meycauayan", message: "earned daily max", emoji: "💯", subtitle: "150 points today!" },
+    { name: "Art from Meycauayan", message: "earned unlimited points", emoji: "💯", subtitle: "No daily cap!" },
     { name: "Joy from Bacoor", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Begin your journey!" },
     { name: "Sam from Imus", message: "got SM Gift Card", emoji: "🎁", subtitle: "11,110 points earned!" },
     { name: "Lea from Dasmarinas", message: "reached milestone", emoji: "🎯", subtitle: "Keep earning more!" },
@@ -54,6 +54,19 @@ const testimonials = [
     { name: "Jay from Tagaytay", message: "earned bonus points", emoji: "✨", subtitle: "Weekend bonus!" },
     { name: "Sue from Binan", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Welcome aboard!" }
 ];
+
+// Fisher-Yates shuffle algorithm for true randomization
+function shuffleArray(array) {
+    const shuffled = [...array]; // Create a copy to avoid mutating original
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+// Dynamically shuffled testimonials - different order each page load
+const testimonials = shuffleArray(baseTestimonials);
 
 // Modal Configuration - Easy to modify
 const MODAL_CONFIG = {
@@ -100,6 +113,9 @@ function initializeApp() {
     
     // Initialize hero visual effects
     initializeHeroEffects();
+    
+    // Log shuffle info for debugging
+    console.log(`Testimonials shuffled! First testimonial: ${testimonials[0].name}`);
 }
 
 // Modal Control Functions
@@ -160,6 +176,15 @@ function updateModalTiming(showDelay, autoHideDelay = 0) {
     MODAL_CONFIG.showDelay = showDelay;
     MODAL_CONFIG.autoHideDelay = autoHideDelay;
     console.log(`Modal timing updated: show after ${showDelay}ms, auto-hide after ${autoHideDelay}ms`);
+}
+
+// Function to reshuffle testimonials (for developer use or periodic refresh)
+function reshuffleTestimonials() {
+    const newOrder = shuffleArray(baseTestimonials);
+    testimonials.length = 0; // Clear existing array
+    testimonials.push(...newOrder); // Add shuffled items
+    currentTestimonialIndex = 0; // Reset index
+    console.log(`Testimonials reshuffled! New first testimonial: ${testimonials[0].name}`);
 }
 
 // Enhanced Confetti System with proper cleanup
@@ -700,18 +725,24 @@ document.addEventListener('visibilitychange', function() {
 
 // Developer Console Helper Functions
 console.log(`
-🎁 Microsoft Bing Rewards - Modal Control Functions:
+🎁 Microsoft Bing Rewards - Dynamic Testimonials & Modal Control:
 
 • toggleModal(true/false) - Enable/disable modal
 • resetModalSession() - Reset modal session storage
 • updateModalTiming(showDelay, autoHideDelay) - Update timing
+• reshuffleTestimonials() - Reshuffle testimonials order
 • MODAL_CONFIG - View current configuration
 
 Current config:
 - Enabled: ${MODAL_CONFIG.enabled}
-- Show delay: ${MODAL_CONFIG.showDelay}ms (5 seconds)
+- Show delay: ${MODAL_CONFIG.showDelay}ms (8 seconds)
 - Auto-hide: ${MODAL_CONFIG.autoHideDelay}ms
 - Show once: ${MODAL_CONFIG.showOnce}
+
+🔀 Dynamic Features:
+- Testimonials are shuffled on each page load
+- Updated messaging reflects unlimited earning potential
+- No fixed daily limits mentioned in testimonials
 
 🎨 Hero Visual Effects:
 - Floating SVG elements with animations
@@ -727,4 +758,5 @@ window.closeModal = closeModal;
 window.toggleModal = toggleModal;
 window.resetModalSession = resetModalSession;
 window.updateModalTiming = updateModalTiming;
+window.reshuffleTestimonials = reshuffleTestimonials;
 window.MODAL_CONFIG = MODAL_CONFIG;
