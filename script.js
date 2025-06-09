@@ -55,11 +55,21 @@ const testimonials = [
     { name: "Sue from Binan", message: "joined Bing Rewards", emoji: "🎊", subtitle: "Welcome aboard!" }
 ];
 
+// Modal Configuration - Easy to modify
+const MODAL_CONFIG = {
+    enabled: true,           // Set to false to disable modal completely
+    showDelay: 7000,        // Delay before showing modal (in milliseconds)
+    autoHideDelay: 0,       // Auto-hide after X milliseconds (0 = no auto-hide)
+    showOnce: false,        // Set to true to show only once per session
+    storageKey: 'bingRewardsModalShown' // Local storage key for tracking
+};
+
 let currentTestimonialIndex = 0;
 let toastTimeout;
 let confettiAnimationId;
 let confettiSystem = null;
 let confettiActive = false;
+let modalTimeout;
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -73,8 +83,8 @@ function initializeApp() {
     // Start confetti effect
     startConfettiEffect();
     
-    // Show welcome modal after 3 seconds
-    setTimeout(showWelcomeModal, 3000);
+    // Show welcome modal based on configuration
+    scheduleWelcomeModal();
     
     // Start toast notifications
     showToastNotification();
@@ -90,6 +100,66 @@ function initializeApp() {
     
     // Initialize countdown timer
     initializeCountdownTimer();
+}
+
+// Modal Control Functions
+function scheduleWelcomeModal() {
+    if (!MODAL_CONFIG.enabled) {
+        console.log('Modal is disabled in configuration');
+        return;
+    }
+    
+    // Check if modal should show only once
+    if (MODAL_CONFIG.showOnce) {
+        const hasShown = localStorage.getItem(MODAL_CONFIG.storageKey);
+        if (hasShown) {
+            console.log('Modal already shown this session');
+            return;
+        }
+    }
+    
+    // Schedule modal to show
+    modalTimeout = setTimeout(() => {
+        showWelcomeModal();
+        
+        // Mark as shown if configured to show once
+        if (MODAL_CONFIG.showOnce) {
+            localStorage.setItem(MODAL_CONFIG.storageKey, 'true');
+        }
+        
+        // Auto-hide if configured
+        if (MODAL_CONFIG.autoHideDelay > 0) {
+            setTimeout(() => {
+                closeModal();
+            }, MODAL_CONFIG.autoHideDelay);
+        }
+    }, MODAL_CONFIG.showDelay);
+}
+
+// Function to enable/disable modal (for developer use)
+function toggleModal(enabled) {
+    MODAL_CONFIG.enabled = enabled;
+    console.log(`Modal ${enabled ? 'enabled' : 'disabled'}`);
+    
+    if (!enabled && modalTimeout) {
+        clearTimeout(modalTimeout);
+        closeModal();
+    } else if (enabled) {
+        scheduleWelcomeModal();
+    }
+}
+
+// Function to reset modal session (for developer use)
+function resetModalSession() {
+    localStorage.removeItem(MODAL_CONFIG.storageKey);
+    console.log('Modal session reset');
+}
+
+// Function to update modal timing (for developer use)
+function updateModalTiming(showDelay, autoHideDelay = 0) {
+    MODAL_CONFIG.showDelay = showDelay;
+    MODAL_CONFIG.autoHideDelay = autoHideDelay;
+    console.log(`Modal timing updated: show after ${showDelay}ms, auto-hide after ${autoHideDelay}ms`);
 }
 
 // Enhanced Confetti System with proper cleanup
@@ -270,6 +340,8 @@ function showWelcomeModal() {
         if (confettiSystem) {
             confettiSystem.burst(25);
         }
+        
+        console.log('Welcome modal shown');
     }
 }
 
@@ -277,6 +349,13 @@ function closeModal() {
     const modal = document.getElementById('welcome-modal');
     if (modal) {
         modal.classList.remove('show');
+        console.log('Welcome modal closed');
+    }
+    
+    // Clear modal timeout if it exists
+    if (modalTimeout) {
+        clearTimeout(modalTimeout);
+        modalTimeout = null;
     }
 }
 
@@ -561,6 +640,7 @@ window.addEventListener('beforeunload', function() {
         confettiSystem.clear();
     }
     clearTimeout(toastTimeout);
+    clearTimeout(modalTimeout);
 });
 
 // Page visibility change handler (cleanup when tab is hidden)
@@ -570,7 +650,27 @@ document.addEventListener('visibilitychange', function() {
     }
 });
 
-// Expose functions globally for HTML onclick handlers
+// Developer Console Helper Functions
+console.log(`
+🎁 Microsoft Bing Rewards - Modal Control Functions:
+
+• toggleModal(true/false) - Enable/disable modal
+• resetModalSession() - Reset modal session storage
+• updateModalTiming(showDelay, autoHideDelay) - Update timing
+• MODAL_CONFIG - View current configuration
+
+Current config:
+- Enabled: ${MODAL_CONFIG.enabled}
+- Show delay: ${MODAL_CONFIG.showDelay}ms
+- Auto-hide: ${MODAL_CONFIG.autoHideDelay}ms
+- Show once: ${MODAL_CONFIG.showOnce}
+`);
+
+// Expose functions globally for HTML onclick handlers and developer use
 window.hideToast = hideToast;
 window.copyToClipboard = copyToClipboard;
 window.closeModal = closeModal;
+window.toggleModal = toggleModal;
+window.resetModalSession = resetModalSession;
+window.updateModalTiming = updateModalTiming;
+window.MODAL_CONFIG = MODAL_CONFIG;
