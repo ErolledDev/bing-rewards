@@ -344,7 +344,7 @@ background-size: 24px 24px;
   z-index: 10;
 }
 
-/* Floating Particles */
+/* Enhanced Floating Particles */
 .floating-particles {
   position: absolute;
   width: 100%;
@@ -398,6 +398,30 @@ background-size: 24px 24px;
   animation-duration: 19s;
 }
 
+.particle-7 {
+  left: 30%;
+  animation-delay: 12s;
+  animation-duration: 21s;
+}
+
+.particle-8 {
+  left: 60%;
+  animation-delay: 14s;
+  animation-duration: 17s;
+}
+
+.particle-9 {
+  left: 40%;
+  animation-delay: 16s;
+  animation-duration: 23s;
+}
+
+.particle-10 {
+  left: 85%;
+  animation-delay: 18s;
+  animation-duration: 15s;
+}
+
 @keyframes floatParticle {
   0% {
     transform: translateY(100vh) rotate(0deg);
@@ -415,7 +439,7 @@ background-size: 24px 24px;
   }
 }
 
-/* SVG Decorations */
+/* Enhanced SVG Decorations */
 .svg-decorations {
   position: absolute;
   width: 100%;
@@ -432,6 +456,14 @@ background-size: 24px 24px;
   right: 10%;
   animation: floatGift 6s ease-in-out infinite;
   opacity: 0.7;
+}
+
+.gift-2 {
+  top: 70%;
+  left: 5%;
+  width: 45px;
+  height: 45px;
+  animation: floatGift2 8s ease-in-out infinite;
 }
 
 .floating-coin {
@@ -453,6 +485,18 @@ background-size: 24px 24px;
   animation: floatCoin2 7s ease-in-out infinite;
 }
 
+.coin-3 {
+  top: 15%;
+  left: 5%;
+  animation: floatCoin3 9s ease-in-out infinite;
+}
+
+.coin-4 {
+  top: 85%;
+  right: 5%;
+  animation: floatCoin4 6s ease-in-out infinite;
+}
+
 .floating-star {
   position: absolute;
   width: 30px;
@@ -472,6 +516,18 @@ background-size: 24px 24px;
   animation: floatStar2 10s ease-in-out infinite;
 }
 
+.star-3 {
+  top: 45%;
+  left: 85%;
+  animation: floatStar3 7s ease-in-out infinite;
+}
+
+.star-4 {
+  top: 25%;
+  left: 50%;
+  animation: floatStar4 11s ease-in-out infinite;
+}
+
 .floating-bag {
   position: absolute;
   width: 50px;
@@ -482,20 +538,105 @@ background-size: 24px 24px;
   opacity: 0.6;
 }
 
+.bag-2 {
+  top: 20%;
+  right: 25%;
+  width: 40px;
+  height: 40px;
+  animation: floatBag2 9s ease-in-out infinite;
+}
+
 .floating-badge {
   position: absolute;
   width: 80px;
   height: 40px;
-  top: 80%;
-  right: 15%;
-  animation: floatBadge 7s ease-in-out infinite;
   opacity: 0.7;
 }
 
-/* SVG Animation Keyframes */
+.floating-badge {
+  top: 80%;
+  right: 15%;
+  animation: floatBadge 7s ease-in-out infinite;
+}
+
+.badge-2 {
+  top: 10%;
+  left: 70%;
+  animation: floatBadge2 8s ease-in-out infinite;
+}
+
+.badge-3 {
+  top: 55%;
+  right: 30%;
+  animation: floatBadge3 6s ease-in-out infinite;
+}
+
+.floating-search {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  opacity: 0.5;
+}
+
+.search-1 {
+  top: 35%;
+  left: 10%;
+  animation: floatSearch1 10s ease-in-out infinite;
+}
+
+.search-2 {
+  top: 65%;
+  right: 10%;
+  animation: floatSearch2 8s ease-in-out infinite;
+}
+
+.floating-diamond {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  opacity: 0.4;
+}
+
+.diamond-1 {
+  top: 25%;
+  left: 75%;
+  animation: floatDiamond1 12s ease-in-out infinite;
+}
+
+.diamond-2 {
+  top: 75%;
+  left: 25%;
+  animation: floatDiamond2 9s ease-in-out infinite;
+}
+
+.floating-heart {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  opacity: 0.4;
+}
+
+.heart-1 {
+  top: 50%;
+  left: 90%;
+  animation: floatHeart1 11s ease-in-out infinite;
+}
+
+.heart-2 {
+  top: 90%;
+  left: 50%;
+  animation: floatHeart2 8s ease-in-out infinite;
+}
+
+/* Enhanced SVG Animation Keyframes */
 @keyframes floatGift {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+@keyframes floatGift2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(-3deg); }
 }
 
 @keyframes floatCoin1 {
@@ -509,6 +650,16 @@ background-size: 24px 24px;
   50% { transform: translateY(-25px) translateX(-15px) rotate(180deg); }
 }
 
+@keyframes floatCoin3 {
+  0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
+  50% { transform: translateY(-18px) scale(1.1) rotate(270deg); }
+}
+
+@keyframes floatCoin4 {
+  0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) translateX(8px) rotate(-180deg); }
+}
+
 @keyframes floatStar1 {
   0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
   50% { transform: translateY(-10px) scale(1.2) rotate(180deg); }
@@ -519,9 +670,24 @@ background-size: 24px 24px;
   50% { transform: translateY(-15px) scale(0.8) rotate(-180deg); }
 }
 
+@keyframes floatStar3 {
+  0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
+  50% { transform: translateY(-8px) scale(1.3) rotate(90deg); }
+}
+
+@keyframes floatStar4 {
+  0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
+  50% { transform: translateY(-22px) scale(0.9) rotate(-90deg); }
+}
+
 @keyframes floatBag {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-18px) rotate(-3deg); }
+}
+
+@keyframes floatBag2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
 }
 
 @keyframes floatBadge {
@@ -529,7 +695,47 @@ background-size: 24px 24px;
   50% { transform: translateY(-12px) rotate(2deg); }
 }
 
-/* Geometric Shapes */
+@keyframes floatBadge2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(-1deg); }
+}
+
+@keyframes floatBadge3 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(3deg); }
+}
+
+@keyframes floatSearch1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(15deg); }
+}
+
+@keyframes floatSearch2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(-10deg); }
+}
+
+@keyframes floatDiamond1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(45deg); }
+}
+
+@keyframes floatDiamond2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(-45deg); }
+}
+
+@keyframes floatHeart1 {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-18px) scale(1.1); }
+}
+
+@keyframes floatHeart2 {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-14px) scale(0.9); }
+}
+
+/* Enhanced Geometric Shapes */
 .geometric-shapes {
   position: absolute;
   width: 100%;
@@ -553,6 +759,16 @@ background-size: 24px 24px;
   animation: rotateShape 20s linear infinite;
 }
 
+.shape-circle-2 {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  top: 80%;
+  left: 80%;
+  animation: rotateShape 25s linear infinite reverse;
+}
+
 .shape-triangle {
   width: 0;
   height: 0;
@@ -564,6 +780,17 @@ background-size: 24px 24px;
   animation: rotateShape 25s linear infinite reverse;
 }
 
+.shape-triangle-2 {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 35px solid rgba(255, 255, 255, 0.12);
+  top: 20%;
+  left: 15%;
+  animation: rotateShape 30s linear infinite;
+}
+
 .shape-square {
   width: 40px;
   height: 40px;
@@ -571,6 +798,16 @@ background-size: 24px 24px;
   top: 75%;
   left: 10%;
   animation: rotateShape 30s linear infinite;
+  transform-origin: center;
+}
+
+.shape-square-2 {
+  width: 35px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.08);
+  top: 40%;
+  right: 5%;
+  animation: rotateShape 35s linear infinite reverse;
   transform-origin: center;
 }
 
@@ -603,12 +840,32 @@ background-size: 24px 24px;
   border-top: 17.32px solid rgba(255, 255, 255, 0.08);
 }
 
+.shape-pentagon {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.06);
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  top: 60%;
+  left: 75%;
+  animation: rotateShape 40s linear infinite;
+}
+
+.shape-octagon {
+  width: 45px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.07);
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  top: 85%;
+  right: 25%;
+  animation: rotateShape 28s linear infinite reverse;
+}
+
 @keyframes rotateShape {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-/* Gradient Orbs */
+/* Enhanced Gradient Orbs */
 .gradient-orbs {
   position: absolute;
   width: 100%;
@@ -652,10 +909,278 @@ background-size: 24px 24px;
   animation-delay: 8s;
 }
 
+.orb-4 {
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle, rgba(26, 122, 228, 0.4) 0%, transparent 70%);
+  top: 5%;
+  right: 20%;
+  animation-delay: 2s;
+}
+
+.orb-5 {
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(circle, rgba(220, 53, 69, 0.4) 0%, transparent 70%);
+  top: 75%;
+  left: 20%;
+  animation-delay: 6s;
+}
+
+.orb-6 {
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(circle, rgba(40, 167, 69, 0.4) 0%, transparent 70%);
+  top: 40%;
+  right: 30%;
+  animation-delay: 10s;
+}
+
 @keyframes floatOrb {
   0%, 100% { transform: translateY(0px) translateX(0px); }
   33% { transform: translateY(-30px) translateX(20px); }
   66% { transform: translateY(-10px) translateX(-15px); }
+}
+
+/* New Floating Bubbles */
+.floating-bubbles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: floatBubble 15s infinite linear;
+}
+
+.bubble-1 {
+  width: 20px;
+  height: 20px;
+  left: 10%;
+  animation-delay: 0s;
+  animation-duration: 18s;
+}
+
+.bubble-2 {
+  width: 15px;
+  height: 15px;
+  left: 25%;
+  animation-delay: 3s;
+  animation-duration: 20s;
+}
+
+.bubble-3 {
+  width: 25px;
+  height: 25px;
+  left: 45%;
+  animation-delay: 6s;
+  animation-duration: 16s;
+}
+
+.bubble-4 {
+  width: 18px;
+  height: 18px;
+  left: 65%;
+  animation-delay: 9s;
+  animation-duration: 22s;
+}
+
+.bubble-5 {
+  width: 12px;
+  height: 12px;
+  left: 80%;
+  animation-delay: 12s;
+  animation-duration: 19s;
+}
+
+.bubble-6 {
+  width: 22px;
+  height: 22px;
+  left: 35%;
+  animation-delay: 15s;
+  animation-duration: 17s;
+}
+
+.bubble-7 {
+  width: 16px;
+  height: 16px;
+  left: 55%;
+  animation-delay: 18s;
+  animation-duration: 21s;
+}
+
+.bubble-8 {
+  width: 14px;
+  height: 14px;
+  left: 75%;
+  animation-delay: 21s;
+  animation-duration: 15s;
+}
+
+@keyframes floatBubble {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100px) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Animated Lines */
+.animated-lines {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.line {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  opacity: 0.4;
+}
+
+.line-1 {
+  width: 100px;
+  height: 2px;
+  top: 20%;
+  left: 0;
+  animation: moveLine1 8s ease-in-out infinite;
+}
+
+.line-2 {
+  width: 80px;
+  height: 1px;
+  top: 50%;
+  right: 0;
+  animation: moveLine2 10s ease-in-out infinite;
+}
+
+.line-3 {
+  width: 120px;
+  height: 2px;
+  top: 75%;
+  left: 0;
+  animation: moveLine3 12s ease-in-out infinite;
+}
+
+.line-4 {
+  width: 90px;
+  height: 1px;
+  top: 35%;
+  right: 0;
+  animation: moveLine4 9s ease-in-out infinite;
+}
+
+@keyframes moveLine1 {
+  0%, 100% { transform: translateX(-100px); }
+  50% { transform: translateX(calc(100vw + 100px)); }
+}
+
+@keyframes moveLine2 {
+  0%, 100% { transform: translateX(100px); }
+  50% { transform: translateX(calc(-100vw - 100px)); }
+}
+
+@keyframes moveLine3 {
+  0%, 100% { transform: translateX(-120px); }
+  50% { transform: translateX(calc(100vw + 120px)); }
+}
+
+@keyframes moveLine4 {
+  0%, 100% { transform: translateX(90px); }
+  50% { transform: translateX(calc(-100vw - 90px)); }
+}
+
+/* Pulsing Dots */
+.pulsing-dots {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.dot {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  animation: pulseDot 3s ease-in-out infinite;
+}
+
+.dot-1 {
+  width: 8px;
+  height: 8px;
+  top: 15%;
+  left: 30%;
+  animation-delay: 0s;
+}
+
+.dot-2 {
+  width: 6px;
+  height: 6px;
+  top: 35%;
+  right: 25%;
+  animation-delay: 0.5s;
+}
+
+.dot-3 {
+  width: 10px;
+  height: 10px;
+  top: 55%;
+  left: 70%;
+  animation-delay: 1s;
+}
+
+.dot-4 {
+  width: 7px;
+  height: 7px;
+  top: 75%;
+  right: 40%;
+  animation-delay: 1.5s;
+}
+
+.dot-5 {
+  width: 9px;
+  height: 9px;
+  top: 25%;
+  left: 60%;
+  animation-delay: 2s;
+}
+
+.dot-6 {
+  width: 5px;
+  height: 5px;
+  top: 65%;
+  left: 15%;
+  animation-delay: 2.5s;
+}
+
+@keyframes pulseDot {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% { 
+    transform: scale(1.5);
+    opacity: 0.8;
+  }
 }
 
 /* Enhanced Avatar */
@@ -1512,6 +2037,11 @@ background-size: 24px 24px;
     height: 40px;
   }
   
+  .gift-2 {
+    width: 30px;
+    height: 30px;
+  }
+  
   .floating-coin {
     width: 30px;
     height: 30px;
@@ -1527,14 +2057,39 @@ background-size: 24px 24px;
     height: 35px;
   }
   
+  .bag-2 {
+    width: 30px;
+    height: 30px;
+  }
+  
   .floating-badge {
     width: 60px;
+    height: 30px;
+  }
+  
+  .floating-search {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .floating-diamond {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .floating-heart {
+    width: 30px;
     height: 30px;
   }
   
   .shape-circle {
     width: 60px;
     height: 60px;
+  }
+  
+  .shape-circle-2 {
+    width: 45px;
+    height: 45px;
   }
   
   .orb-1 {
@@ -1550,6 +2105,33 @@ background-size: 24px 24px;
   .orb-3 {
     width: 60px;
     height: 60px;
+  }
+  
+  .orb-4 {
+    width: 65px;
+    height: 65px;
+  }
+  
+  .orb-5 {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .orb-6 {
+    width: 75px;
+    height: 75px;
+  }
+  
+  .bubble {
+    transform: scale(0.8);
+  }
+  
+  .line {
+    height: 1px;
+  }
+  
+  .dot {
+    transform: scale(0.8);
   }
 }
 
@@ -1658,6 +2240,11 @@ background-size: 24px 24px;
     height: 30px;
   }
   
+  .gift-2 {
+    width: 25px;
+    height: 25px;
+  }
+  
   .floating-coin {
     width: 25px;
     height: 25px;
@@ -1673,9 +2260,37 @@ background-size: 24px 24px;
     height: 25px;
   }
   
+  .bag-2 {
+    width: 20px;
+    height: 20px;
+  }
+  
   .floating-badge {
     width: 50px;
     height: 25px;
+  }
+  
+  .floating-search {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .floating-diamond {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .floating-heart {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .bubble {
+    transform: scale(0.6);
+  }
+  
+  .dot {
+    transform: scale(0.6);
   }
 }
 
@@ -1697,12 +2312,22 @@ background-size: 24px 24px;
   
   .floating-particles .particle,
   .floating-gift,
+  .gift-2,
   .floating-coin,
   .floating-star,
   .floating-bag,
+  .bag-2,
   .floating-badge,
+  .badge-2,
+  .badge-3,
+  .floating-search,
+  .floating-diamond,
+  .floating-heart,
   .shape,
   .orb,
+  .bubble,
+  .line,
+  .dot,
   .avatar-ring,
   .avatar-glow,
   .title-underline,

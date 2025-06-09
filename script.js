@@ -58,7 +58,7 @@ const testimonials = [
 // Modal Configuration - Easy to modify
 const MODAL_CONFIG = {
     enabled: true,           // Set to false to disable modal completely
-    showDelay: 5000,        // Delay before showing modal (in milliseconds) - Changed to 5 seconds as requested
+    showDelay: 8000,        // Delay before showing modal (in milliseconds) - Changed to 5 seconds as requested
     autoHideDelay: 0,       // Auto-hide after X milliseconds (0 = no auto-hide)
     showOnce: false,        // Set to true to show only once per session
     storageKey: 'bingRewardsModalShown' // Local storage key for tracking
